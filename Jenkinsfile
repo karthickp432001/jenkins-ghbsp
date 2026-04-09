@@ -18,9 +18,6 @@ pipeline {
             changeset "src/main/**"
             triggeredBy cause: 'UserIdCause'
           }
-         expression {
-    return env.BRANCH_NAME == 'dev' || env.CHANGE_ID != null
-}
         }
       }
             stages {
