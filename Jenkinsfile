@@ -19,8 +19,8 @@ pipeline {
             triggeredBy cause: 'UserIdCause'
           }
          expression {
-            return env.BRANCH_NAME == 'dev' || env.BRANCH_NAME.startsWith('PR-')
-    }
+    return env.BRANCH_NAME == 'dev' || env.CHANGE_ID != null
+}
         }
       }
             stages {
