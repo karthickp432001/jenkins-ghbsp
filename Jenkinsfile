@@ -8,12 +8,21 @@ pipeline {
             }
         }
 
-        stage('Conditional Stages') {
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'dev' || env.CHANGE_ID != null
-                }
-            }
+    stage('Conditional Execution') {
+      when {
+        allOf {
+          anyOf {
+            changeset "docker/**"
+            changeset "docs/**"
+            changeset "pom.xml"
+            changeset "src/main/**"
+            triggeredBy cause: 'UserIdCause'
+          }
+          expression {
+            return env.BRANCH_NAME == 'dev';
+          }
+        }
+      }
             stages {
                 stage('Build') {
                     steps {
