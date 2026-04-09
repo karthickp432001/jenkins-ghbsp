@@ -18,9 +18,9 @@ pipeline {
             changeset "src/main/**"
             triggeredBy cause: 'UserIdCause'
           }
-          expression {
-            return env.BRANCH_NAME == 'dev';
-          }
+         expression {
+            return env.BRANCH_NAME == 'dev' || env.BRANCH_NAME.startsWith('PR-')
+    }
         }
       }
             stages {
