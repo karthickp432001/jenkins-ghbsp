@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
@@ -9,23 +8,28 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-                // Replace this with your actual build command
-                sh 'echo "Build step executed"'
+        stage('Conditional Stages') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'dev' || env.CHANGE_ID != null
+                }
             }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                // Replace this with your actual test command
-                sh 'echo "Test step executed"'
+            stages {
+                stage('Build') {
+                    steps {
+                        echo 'Building the project...'
+                        sh 'echo "Build step executed"'
+                    }
+                }
+                stage('Test') {
+                    steps {
+                        echo 'Running tests...'
+                        sh 'echo "Test step executed"'
+                    }
+                }
             }
         }
     }
-
     post {
         always {
             echo 'Pipeline finished.'
@@ -38,5 +42,3 @@ pipeline {
         }
     }
 }
-
-
